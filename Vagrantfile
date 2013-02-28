@@ -23,15 +23,16 @@ Vagrant::Config.run do |config|
     os_aio_config.vm.box = "precise64"
     os_aio_config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-    os_aio_config.vm.boot_mode = :gui
-    # os_aio_config.vm.network  :hostonly, "10.1.2.44" #:hostonly or :bridged - default is NAT
+    # os_aio_config.vm.boot_mode = :gui
+    os_aio_config.vm.network  :hostonly, "10.1.2.3" #:hostonly or :bridged - default is NAT
     os_aio_config.vm.host_name = "os-aio"
     os_aio_config.vm.customize ["modifyvm", :id, "--memory", 1024]
     os_aio_config.ssh.max_tries = 100
-    os_aio_config.vm.forward_port 80, 8080
     os_aio_config.vm.provision :shell, :inline => "apt-get update"
 
     os_aio_config.vm.provision :puppet do |devstack_puppet|
+      # let's force that fqdn is set
+      devstack_puppet.facter = { "fqdn" => "os-aio.local" }
       devstack_puppet.pp_path = "/tmp/vagrant-puppet"
       devstack_puppet.module_path = "modules"
       devstack_puppet.manifests_path = "manifests"
