@@ -15,7 +15,7 @@
 
 node /^os-aio/ {
 
-	$public_interface = 'eth0'
+	$public_interface = 'eth1'
 	$private_interface = 'eth1'
 	$admin_email = 'root@localhost'
 	$admin_password = 'keystone_admin'
